@@ -48,8 +48,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'myapp.middleware.CheckHeadersMiddleware'
+    'myapp.middleware.CheckUserAgentMiddleware',
+    'myapp.middleware.RateLimitMiddleware'
 ]
+RATE_LIMIT_THRESHOLD = 15  # 每分钟请求限制  get请求不能超过15次
+BLACKLIST_THRESHOLD = 35  # 黑名单次数请求限制 get请求不能超过35次
+BLACKLIST_DURATION = 86400  # 黑名单持续时间（秒） 一天：86400s
 
 ROOT_URLCONF = 'djangoProject.urls'
 
@@ -124,3 +128,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}

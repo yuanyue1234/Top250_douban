@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +20,78 @@
         }
         .table {
             margin-bottom: 0; /* 减少行距 */
-            
         }
-        
     </style>
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPage(currentPage);
+
+            document.querySelector('.pagination-previous').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadPage(currentPage);
+                }
+            });
+
+            document.querySelector('.pagination-next').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadPage(currentPage);
+                }
+            });
+        });
+
+        function loadPage(page) {
+            fetch(`/get-paginated-data/?page=${page}`)
+                .then(response => response.json())
+                .then(result => {
+                    const tbody = document.querySelector('tbody');
+                    tbody.innerHTML = '';
+
+                    result.data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.id}</td>
+                            <td><img src="${item.img}" alt="${item.title}" width="100"></td>
+                            <td>${item.title}</td>
+                            <td><a href="${item.href}" target="_blank">查看详情</a></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+
+                    currentPage = page;
+                    totalPages = result.total_pages;
+
+                    document.querySelector('.pagination-previous').disabled = !result.has_previous;
+                    document.querySelector('.pagination-next').disabled = !result.has_next;
+
+                    updatePageIndicators();
+                });
+        }
+
+        function updatePageIndicators() {
+            const paginationList = document.querySelector('.pagination-list');
+            paginationList.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('li');
+                const pageLink = document.createElement('a');
+                pageLink.className = 'pagination-link';
+                pageLink.textContent = i;
+                if (i === currentPage) {
+                    pageLink.classList.add('is-current');
+                }
+                pageLink.addEventListener('click', () => {
+                    loadPage(i);
+                });
+                pageItem.appendChild(pageLink);
+                paginationList.appendChild(pageItem);
+            }
+        }
+    </script>
 </head>
 <body>
     <section class="section">
@@ -39,29 +108,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in page_obj %}
-                        <tr>
-                            <td>{{ item.id }}</td>
-                            <td><img src="{{ item.img }}" alt="{{ item.title }}" width="100"></td>
-                            <td>{{ item.title }}</td>
-                            <td><a href="{{ item.href }}" target="_blank">查看详情</a></td>
-                        </tr>
-                        {% endfor %}
+                        <!-- 数据将通过JavaScript动态加载 -->
                     </tbody>
                 </table>
             </div>
 
             <nav class="pagination" role="navigation" aria-label="pagination">
-                <a class="pagination-previous" {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% else %}disabled{% endif %}>上一页</a>
-                <a class="pagination-next" {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% else %}disabled{% endif %}>下一页</a>
+                <a class="pagination-previous" href="#">上一页</a>
+                <a class="pagination-next" href="#">下一页</a>
                 <ul class="pagination-list">
-                    {% for num in page_obj.paginator.page_range %}
-                        {% if page_obj.number == num %}
-                            <li><a class="pagination-link is-current">{{ num }}</a></li>
-                        {% else %}
-                            <li><a class="pagination-link" href="?page={{ num }}">{{ num }}</a></li>
-                        {% endif %}
-                    {% endfor %}
+                    <!-- 页码指示器将通过JavaScript动态生成 -->
                 </ul>
             </nav>
         </div>
