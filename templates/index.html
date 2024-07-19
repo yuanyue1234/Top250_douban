@@ -21,14 +21,27 @@
         .table {
             margin-bottom: 0; /* 减少行距 */
         }
+        .notification {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
     </style>
     <script>
-        let currentPage = 1;
-        let totalPages = 1;
+        // 全局变量
+        let currentPage = 1;  // 当前页码
+        let totalPages = 1;   // 总页数
+        let itemsPerPage = 25; // 每页显示的条目数
 
+        // DOM内容加载完成后执行
         document.addEventListener('DOMContentLoaded', () => {
-            loadPage(currentPage);
+            const urlParams = new URLSearchParams(window.location.search);
+            currentPage = parseInt(urlParams.get('page')) || 1; // 获取当前页码，默认为1
+            loadPage(currentPage); // 加载当前页的数据
 
+            // 为“上一页”按钮添加点击事件
             document.querySelector('.pagination-previous').addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
@@ -36,6 +49,7 @@
                 }
             });
 
+            // 为“下一页”按钮添加点击事件
             document.querySelector('.pagination-next').addEventListener('click', () => {
                 if (currentPage < totalPages) {
                     currentPage++;
@@ -44,13 +58,26 @@
             });
         });
 
+        // 加载指定页码的数据
         function loadPage(page) {
             fetch(`/get-paginated-data/?page=${page}`)
-                .then(response => response.json())
+                .then(response => {
+                    // 检查响应状态码
+                    if (response.status === 429) {
+                        alert('访问过于频繁，请稍后再试。');
+                        throw new Error('访问过于频繁，请稍后再试。');
+                    }
+                    if (response.status === 403) {
+                        alert('禁止：不允许自动请求.');
+                        throw new Error('禁止：不允许自动请求.');
+                    }
+                    return response.json();
+                })
                 .then(result => {
                     const tbody = document.querySelector('tbody');
-                    tbody.innerHTML = '';
+                    tbody.innerHTML = ''; // 清空表格内容
 
+                    // 填充表格内容
                     result.data.forEach(item => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
@@ -64,18 +91,24 @@
 
                     currentPage = page;
                     totalPages = result.total_pages;
+                    itemsPerPage = result.items_per_page;
 
+                    // 更新分页按钮状态
                     document.querySelector('.pagination-previous').disabled = !result.has_previous;
                     document.querySelector('.pagination-next').disabled = !result.has_next;
 
+                    // 更新分页指示器
                     updatePageIndicators();
+                    {#updateURL(page);#}
                 });
         }
 
+        // 更新分页指示器
         function updatePageIndicators() {
             const paginationList = document.querySelector('.pagination-list');
             paginationList.innerHTML = '';
 
+            // 生成分页链接
             for (let i = 1; i <= totalPages; i++) {
                 const pageItem = document.createElement('li');
                 const pageLink = document.createElement('a');
@@ -91,12 +124,29 @@
                 paginationList.appendChild(pageItem);
             }
         }
+
+        // 显示提示信息
+        function showAlert(message) {
+            const alertBox = document.querySelector('.notification');
+            alertBox.textContent = message;
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+                /*function updateURL(page) {
+            const url = new URL(window.location);
+            url.searchParams.set('page', page);
+            window.history.pushState({page: page}, '', url);
+        } */
+        
     </script>
 </head>
 <body>
     <section class="section">
         <div class="container">
             <h1 class="title">Top250_豆瓣电影数据展示</h1>
+            <div class="notification is-danger"></div> <!-- 提示信息框 -->
             <div class="table-container">
                 <table class="table is-striped is-hoverable is-fullwidth">
                     <thead>

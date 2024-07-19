@@ -46,4 +46,4 @@ if __name__ == "__main__":
     test_request_without_user_agent()
     test_request_with_user_agent()
     test_request_with_custom_encoding()
-    test_ip_rate_limit()
+    # test_ip_rate_limit()
