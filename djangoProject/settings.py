@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*k=e4^yc$l-k&3i*2op_l3_n6jj@e9$ls=@oquxxwz=z=-h)5#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,9 +49,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'myapp.middleware.CheckUserAgentMiddleware',
-    'myapp.middleware.RateLimitMiddleware'
+    'myapp.middleware.RateLimitMiddleware',
+    'myapp.middleware.ClearTableDataMiddleware'
 ]
-RATE_LIMIT_THRESHOLD = 15  # 每分钟请求限制  get请求不能超过15次
+RATE_LIMIT_THRESHOLD = 10  # 每分钟请求限制  get请求不能超过15次
 BLACKLIST_THRESHOLD = 35  # 黑名单次数请求限制 get请求不能超过35次
 BLACKLIST_DURATION = 86400  # 黑名单持续时间（秒） 一天：86400s
 

@@ -7,26 +7,69 @@
     <title>Top250_豆瓣电影数据展示</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <style>
+        body {
+            font-family: 'PingFang', sans-serif;
+        }
+
         .table-container {
-            max-height: 600px;
+            max-height: 85vh;
             overflow-y: auto;
             position: relative;
+            overflow-x: hidden;
         }
+
         .table-container thead th {
             position: sticky;
             top: 0;
             background: white;
             z-index: 2;
         }
+
         .table {
             margin-bottom: 0; /* 减少行距 */
         }
+
         .notification {
             display: none;
             position: fixed;
             top: 10px;
             right: 10px;
             z-index: 1000;
+        }
+
+        .movie-details {
+            display: block;
+            font-size: 1em;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .movie-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .movie-row:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+
+        .movie-row td {
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .movie-row td:hover {
+        {#background-color: #e0e0e0;#} transform: scale(1.02);
+        }
+
+        .tag {
+            margin: 2px;
+        }
+
+        .movie-row img {
+            border-radius: 8px;
         }
     </style>
     <script>
@@ -37,14 +80,13 @@
 
         // DOM内容加载完成后执行
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            currentPage = parseInt(urlParams.get('page')) || 1; // 获取当前页码，默认为1
             loadPage(currentPage); // 加载当前页的数据
 
             // 为“上一页”按钮添加点击事件
             document.querySelector('.pagination-previous').addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
+
                     loadPage(currentPage);
                 }
             });
@@ -53,6 +95,7 @@
             document.querySelector('.pagination-next').addEventListener('click', () => {
                 if (currentPage < totalPages) {
                     currentPage++;
+
                     loadPage(currentPage);
                 }
             });
@@ -60,15 +103,24 @@
 
         // 加载指定页码的数据
         function loadPage(page) {
-            fetch(`/get-paginated-data/?page=${page}`)
+            fetch(`/get-paginated-data/?page=${page}`,
+                {
+                    headers: {
+                        'Cache-Control':
+                            'no-cache',
+                        'Pragma':
+                            'no-cache'
+                    }
+                }
+            )
+
                 .then(response => {
-                    // 检查响应状态码
                     if (response.status === 429) {
-                        alert('访问过于频繁，请稍后再试。');
+                        showAlert('访问过于频繁，请稍后再试。');
                         throw new Error('访问过于频繁，请稍后再试。');
                     }
                     if (response.status === 403) {
-                        alert('禁止：不允许自动请求.');
+                        showAlert('禁止：不允许自动请求.');
                         throw new Error('禁止：不允许自动请求.');
                     }
                     return response.json();
@@ -76,16 +128,25 @@
                 .then(result => {
                     const tbody = document.querySelector('tbody');
                     tbody.innerHTML = ''; // 清空表格内容
-
-                    // 填充表格内容
                     result.data.forEach(item => {
                         const row = document.createElement('tr');
+                        row.className = 'movie-row';
                         row.innerHTML = `
-                            <td>${item.id}</td>
-                            <td><img src="${item.img}" alt="${item.title}" width="100"></td>
-                            <td>${item.title}</td>
-                            <td><a href="${item.href}" target="_blank">查看详情</a></td>
-                        `;
+                    <td>${item.id}</td>
+                    <td><img data-src="${item.img}" alt="${item.title}" width="100" class="lazy"></td>
+                    <td>
+                        <a href="${item.href}" target="_blank" class="movie-title">${item.title}</a>
+                        <p>
+                        <span class="tag is-info">${item.tags.时间} 年</span>
+                        <span class="tag is-link">${item.score || 'N/A'} 分</span><br>
+                        <span>${item.tags.国家.map(country => `<span class="tag is-primary">${country}</span>`).join(' ')}</span>
+                        <span>${item.tags.属性.map(property => `<span class="tag is-danger">${property}</span>`).join(' ')}</span>
+                        </p>
+                        <div class="movie-details">
+                            <p style="font-family: 仿宋,宋体,serif"><strong>${item.quote || 'N/A'}</strong></p>
+                        </div>
+                    </td>
+                `;
                         tbody.appendChild(row);
                     });
 
@@ -93,14 +154,36 @@
                     totalPages = result.total_pages;
                     itemsPerPage = result.items_per_page;
 
-                    // 更新分页按钮状态
                     document.querySelector('.pagination-previous').disabled = !result.has_previous;
                     document.querySelector('.pagination-next').disabled = !result.has_next;
 
-                    // 更新分页指示器
                     updatePageIndicators();
-                    {#updateURL(page);#}
+
+                    enableLazyLoad();
+
+                    // 滚动条回顶
+                    document.querySelector('.table-container').scrollTop = 0;
                 });
+        }
+
+
+        // 启用图片懒加载
+        function enableLazyLoad() {
+            const lazyImages = document.querySelectorAll('.lazy');
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.getAttribute('data-src');
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => {
+                observer.observe(img);
+            });
         }
 
         // 更新分页指示器
@@ -110,67 +193,75 @@
 
             // 生成分页链接
             for (let i = 1; i <= totalPages; i++) {
+                // 这是一个循环，从 1 迭代到 totalPages（总页数）
                 const pageItem = document.createElement('li');
+                // 创建一个 <li> 元素（列表项）
                 const pageLink = document.createElement('a');
+                // 创建一个 <a> 元素（链接）
                 pageLink.className = 'pagination-link';
+                // 为链接设置类名 'pagination-link'
                 pageLink.textContent = i;
+                // 设置链接的文本内容为当前的页码 i
                 if (i === currentPage) {
+                    // 如果当前页码 i 等于当前显示的页面 currentPage
                     pageLink.classList.add('is-current');
+                    // 为链接添加 'is-current' 类，表示当前选中的页码
                 }
                 pageLink.addEventListener('click', () => {
+                    // 为链接添加点击事件
                     loadPage(i);
+                    // 当点击时，调用 loadPage 函数并传递当前页码 i 作为参数
                 });
                 pageItem.appendChild(pageLink);
+                // 将链接添加到列表项中
                 paginationList.appendChild(pageItem);
+                // 将列表项添加到分页列表 paginationList 中
             }
         }
 
-        // 显示提示信息
-        function showAlert(message) {
-            const alertBox = document.querySelector('.notification');
-            alertBox.textContent = message;
-            alertBox.style.display = 'block';
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 5000);
-        }
-                /*function updateURL(page) {
-            const url = new URL(window.location);
-            url.searchParams.set('page', page);
-            window.history.pushState({page: page}, '', url);
-        } */
-        
+            // 显示提示信息
+            function showAlert(message) {
+                const alertBox = document.querySelector('.notification');
+                alertBox.textContent = message;
+                alertBox.style.display = 'block';
+                setTimeout(() => {
+                    alertBox.style.display = 'none';
+                }, 5000);
+            }
     </script>
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">Top250_豆瓣电影数据展示</h1>
-            <div class="notification is-danger"></div> <!-- 提示信息框 -->
-            <div class="table-container">
-                <table class="table is-striped is-hoverable is-fullwidth">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>封面</th>
-                            <th>名称</th>
-                            <th>链接</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 数据将通过JavaScript动态加载 -->
-                    </tbody>
-                </table>
-            </div>
+<section class="section">
+    <div class="container">
+        <div class="notification is-danger"></div> <!-- 提示信息框 -->
+        <div class="table-container">
+            <h3 class="subtitle">Top250_豆瓣电影  <a target="_blank"  href="https://share.theojs.cn/dian-ying-xi-lie-he-ji/">获取电影资源(随时可能失效)</a>
+                <a target="_blank" href="https://asunny.top">
+                <img style="width: 55px;float: right; margin-right: 10px" src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico" alt="Asunny主页"></a></h3>
 
-            <nav class="pagination" role="navigation" aria-label="pagination">
-                <a class="pagination-previous" href="#">上一页</a>
-                <a class="pagination-next" href="#">下一页</a>
-                <ul class="pagination-list">
-                    <!-- 页码指示器将通过JavaScript动态生成 -->
-                </ul>
-            </nav>
+            <table class="table is-striped is-hoverable is-fullwidth">
+                <thead>
+                <tr>
+                    <th style="max-width: 30px; min-width: 30px; width: 30px">序</th>
+                    <th style="min-width: 130px">封面</th>
+                    <th>名称</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 数据将通过JavaScript动态加载 -->
+                </tbody>
+            </table>
         </div>
-    </section>
+
+        <nav class="pagination" role="navigation" aria-label="pagination">
+            <a class="pagination-previous" href="#">上一页</a>
+            <a class="pagination-next" href="#">下一页</a>
+            <ul class="pagination-list">
+                <!-- 页码指示器将通过JavaScript动态生成 -->
+            </ul>
+
+        </nav>
+    </div>
+</section>
 </body>
 </html>

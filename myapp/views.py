@@ -1,3 +1,5 @@
+import random
+
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
@@ -42,6 +44,7 @@ def get_paginated_data(request):
         page_obj = paginator.page(paginator.num_pages)
 
     data = list(page_obj)
+    random_number = random.randint(1, 1000000)  # 生成一个随机数
     return JsonResponse({
         'data': data,
         'has_previous': page_obj.has_previous(),
@@ -49,4 +52,9 @@ def get_paginated_data(request):
         'previous_page_number': page_obj.previous_page_number() if page_obj.has_previous() else None,
         'next_page_number': page_obj.next_page_number() if page_obj.has_next() else None,
         'total_pages': paginator.num_pages,
+        'random_number': random_number  # 将随机数添加到返回的 JSON 数据中
     })
+
+
+# 数据可视化
+

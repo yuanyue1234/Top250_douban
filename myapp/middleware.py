@@ -69,3 +69,14 @@ class RateLimitMiddleware:
         requests.append(now)
         cache.set(rate_limit_key, requests, timeout=60)
         return False
+
+
+from django.utils.deprecation import MiddlewareMixin
+
+class ClearTableDataMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if request.path == '/get-paginated-data/':
+            if 'data' in request.session:
+                del request.session['data']
+    def process_response(self, request, response):
+        return response

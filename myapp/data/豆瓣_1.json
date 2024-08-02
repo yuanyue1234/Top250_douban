@@ -2,151 +2,480 @@
     "1": {
         "id": "1",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg",
-        "href": "https://movie.douban.com/subject/1292052/",
-        "title": "肖申克的救赎"
+        "title": "肖申克的救赎",
+        "tags": {
+            "时间": "1994",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "犯罪",
+                "剧情"
+            ]
+        },
+        "score": 9.7,
+        "quote": "希望让人自由。",
+        "href": "https://movie.douban.com/subject/1292052/"
     },
     "2": {
         "id": "2",
         "img": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2561716440.jpg",
-        "href": "https://movie.douban.com/subject/1291546/",
-        "title": "霸王别姬"
+        "title": "霸王别姬",
+        "tags": {
+            "时间": "1993",
+            "国家": [
+                "中国大陆",
+                "中国香港"
+            ],
+            "属性": [
+                "剧情",
+                "爱情",
+                "同性"
+            ]
+        },
+        "score": 9.6,
+        "quote": "风华绝代。",
+        "href": "https://movie.douban.com/subject/1291546/"
     },
     "3": {
         "id": "3",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2372307693.jpg",
-        "href": "https://movie.douban.com/subject/1292720/",
-        "title": "阿甘正传"
+        "title": "阿甘正传",
+        "tags": {
+            "时间": "1994",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "爱情"
+            ]
+        },
+        "score": 9.5,
+        "quote": "一部美国近现代史。",
+        "href": "https://movie.douban.com/subject/1292720/"
     },
     "4": {
         "id": "4",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p457760035.jpg",
-        "href": "https://movie.douban.com/subject/1292722/",
-        "title": "泰坦尼克号"
+        "title": "泰坦尼克号",
+        "tags": {
+            "时间": "1997",
+            "国家": [
+                "美国",
+                "墨西哥"
+            ],
+            "属性": [
+                "剧情",
+                "爱情",
+                "灾难"
+            ]
+        },
+        "score": 9.5,
+        "quote": "失去的才是永恒的。 ",
+        "href": "https://movie.douban.com/subject/1292722/"
     },
     "5": {
         "id": "5",
         "img": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2557573348.jpg",
-        "href": "https://movie.douban.com/subject/1291561/",
-        "title": "千与千寻"
+        "title": "千与千寻",
+        "tags": {
+            "时间": "2001",
+            "国家": [
+                "日本"
+            ],
+            "属性": [
+                "剧情",
+                "动画",
+                "奇幻"
+            ]
+        },
+        "score": 9.4,
+        "quote": "最好的宫崎骏，最好的久石让。 ",
+        "href": "https://movie.douban.com/subject/1291561/"
     },
     "6": {
         "id": "6",
         "img": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p511118051.jpg",
-        "href": "https://movie.douban.com/subject/1295644/",
-        "title": "这个杀手不太冷"
+        "title": "这个杀手不太冷",
+        "tags": {
+            "时间": "1994",
+            "国家": [
+                "法国",
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "动作",
+                "犯罪"
+            ]
+        },
+        "score": 9.4,
+        "quote": "怪蜀黍和小萝莉不得不说的故事。",
+        "href": "https://movie.douban.com/subject/1295644/"
     },
     "7": {
         "id": "7",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2578474613.jpg",
-        "href": "https://movie.douban.com/subject/1292063/",
-        "title": "美丽人生"
+        "title": "美丽人生",
+        "tags": {
+            "时间": "1997",
+            "国家": [
+                "意大利"
+            ],
+            "属性": [
+                "剧情",
+                "喜剧",
+                "爱情",
+                "战争"
+            ]
+        },
+        "score": 9.5,
+        "quote": "最美的谎言。",
+        "href": "https://movie.douban.com/subject/1292063/"
     },
     "8": {
         "id": "8",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2614988097.jpg",
-        "href": "https://movie.douban.com/subject/1889243/",
-        "title": "星际穿越"
+        "title": "星际穿越",
+        "tags": {
+            "时间": "2014",
+            "国家": [
+                "美国",
+                "英国",
+                "加拿大"
+            ],
+            "属性": [
+                "剧情",
+                "科幻",
+                "冒险"
+            ]
+        },
+        "score": 9.4,
+        "quote": "爱是一种力量，让我们超越时空感知它的存在。",
+        "href": "https://movie.douban.com/subject/1889243/"
     },
     "9": {
         "id": "9",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p513344864.jpg",
-        "href": "https://movie.douban.com/subject/3541415/",
-        "title": "盗梦空间"
+        "title": "盗梦空间",
+        "tags": {
+            "时间": "2010",
+            "国家": [
+                "美国",
+                "英国"
+            ],
+            "属性": [
+                "剧情",
+                "科幻",
+                "悬疑",
+                "冒险"
+            ]
+        },
+        "score": 9.4,
+        "quote": "诺兰给了我们一场无法盗取的梦。",
+        "href": "https://movie.douban.com/subject/3541415/"
     },
     "10": {
         "id": "10",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p479682972.jpg",
-        "href": "https://movie.douban.com/subject/1292064/",
-        "title": "楚门的世界"
+        "title": "楚门的世界",
+        "tags": {
+            "时间": "1998",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "科幻"
+            ]
+        },
+        "score": 9.4,
+        "quote": "如果再也不能见到你，祝你早安，午安，晚安。",
+        "href": "https://movie.douban.com/subject/1292064/"
     },
     "11": {
         "id": "11",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p492406163.jpg",
-        "href": "https://movie.douban.com/subject/1295124/",
-        "title": "辛德勒的名单"
+        "title": "辛德勒的名单",
+        "tags": {
+            "时间": "1993",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "历史",
+                "战争"
+            ]
+        },
+        "score": 9.5,
+        "quote": "拯救一个人，就是拯救整个世界。",
+        "href": "https://movie.douban.com/subject/1295124/"
     },
     "12": {
         "id": "12",
         "img": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2587099240.jpg",
-        "href": "https://movie.douban.com/subject/3011091/",
-        "title": "忠犬八公的故事"
+        "title": "忠犬八公的故事",
+        "tags": {
+            "时间": "2009",
+            "国家": [
+                "美国",
+                "英国"
+            ],
+            "属性": [
+                "剧情"
+            ]
+        },
+        "score": 9.4,
+        "quote": "永远都不能忘记你所爱的人。",
+        "href": "https://movie.douban.com/subject/3011091/"
     },
     "13": {
         "id": "13",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p511146957.jpg",
-        "href": "https://movie.douban.com/subject/1292001/",
-        "title": "海上钢琴师"
+        "title": "海上钢琴师",
+        "tags": {
+            "时间": "1998",
+            "国家": [
+                "意大利"
+            ],
+            "属性": [
+                "剧情",
+                "音乐"
+            ]
+        },
+        "score": 9.3,
+        "quote": "每个人都要走一条自己坚定了的路，就算是粉身碎骨。 ",
+        "href": "https://movie.douban.com/subject/1292001/"
     },
     "14": {
         "id": "14",
         "img": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p579729551.jpg",
-        "href": "https://movie.douban.com/subject/3793023/",
-        "title": "三傻大闹宝莱坞"
+        "title": "三傻大闹宝莱坞",
+        "tags": {
+            "时间": "2009",
+            "国家": [
+                "印度"
+            ],
+            "属性": [
+                "剧情",
+                "喜剧",
+                "爱情",
+                "歌舞"
+            ]
+        },
+        "score": 9.2,
+        "quote": "英俊版憨豆，高情商版谢耳朵。",
+        "href": "https://movie.douban.com/subject/3793023/"
     },
     "15": {
         "id": "15",
         "img": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2884280708.jpg",
-        "href": "https://movie.douban.com/subject/1291549/",
-        "title": "放牛班的春天"
+        "title": "放牛班的春天",
+        "tags": {
+            "时间": "2004",
+            "国家": [
+                "法国",
+                "瑞士",
+                "德国"
+            ],
+            "属性": [
+                "剧情",
+                "音乐"
+            ]
+        },
+        "score": 9.3,
+        "quote": "天籁一般的童声，是最接近上帝的存在。 ",
+        "href": "https://movie.douban.com/subject/1291549/"
     },
     "16": {
         "id": "16",
         "img": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p1461851991.jpg",
-        "href": "https://movie.douban.com/subject/2131459/",
-        "title": "机器人总动员"
+        "title": "机器人总动员",
+        "tags": {
+            "时间": "2008",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "科幻",
+                "动画",
+                "冒险"
+            ]
+        },
+        "score": 9.3,
+        "quote": "小瓦力，大人生。",
+        "href": "https://movie.douban.com/subject/2131459/"
     },
     "17": {
         "id": "17",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2315672647.jpg",
-        "href": "https://movie.douban.com/subject/25662329/",
-        "title": "疯狂动物城"
+        "title": "疯狂动物城",
+        "tags": {
+            "时间": "2016",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "喜剧",
+                "动画",
+                "冒险"
+            ]
+        },
+        "score": 9.2,
+        "quote": "迪士尼给我们营造的乌托邦就是这样，永远善良勇敢，永远出乎意料。",
+        "href": "https://movie.douban.com/subject/25662329/"
     },
     "18": {
         "id": "18",
         "img": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2564556863.jpg",
-        "href": "https://movie.douban.com/subject/1307914/",
-        "title": "无间道"
+        "title": "无间道",
+        "tags": {
+            "时间": "2002",
+            "国家": [
+                "中国香港"
+            ],
+            "属性": [
+                "剧情",
+                "犯罪",
+                "惊悚"
+            ]
+        },
+        "score": 9.3,
+        "quote": "香港电影史上永不过时的杰作。",
+        "href": "https://movie.douban.com/subject/1307914/"
     },
     "19": {
         "id": "19",
         "img": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p1505392928.jpg",
-        "href": "https://movie.douban.com/subject/1296141/",
-        "title": "控方证人"
+        "title": "控方证人",
+        "tags": {
+            "时间": "1957",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "犯罪",
+                "悬疑"
+            ]
+        },
+        "score": 9.6,
+        "quote": "比利·怀德满分作品。",
+        "href": "https://movie.douban.com/subject/1296141/"
     },
     "20": {
         "id": "20",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2455050536.jpg",
-        "href": "https://movie.douban.com/subject/1292213/",
-        "title": "大话西游之大圣娶亲"
+        "title": "大话西游之大圣娶亲",
+        "tags": {
+            "时间": "1995",
+            "国家": [
+                "中国香港",
+                "中国大陆"
+            ],
+            "属性": [
+                "喜剧",
+                "爱情",
+                "奇幻",
+                "古装"
+            ]
+        },
+        "score": 9.2,
+        "quote": "一生所爱。",
+        "href": "https://movie.douban.com/subject/1292213/"
     },
     "21": {
         "id": "21",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p1363250216.jpg",
-        "href": "https://movie.douban.com/subject/5912992/",
-        "title": "熔炉"
+        "title": "熔炉",
+        "tags": {
+            "时间": "2011",
+            "国家": [
+                "韩国"
+            ],
+            "属性": [
+                "剧情"
+            ]
+        },
+        "score": 9.3,
+        "quote": "我们一路奋战不是为了改变世界，而是为了不让世界改变我们。",
+        "href": "https://movie.douban.com/subject/5912992/"
     },
     "22": {
         "id": "22",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p616779645.jpg",
-        "href": "https://movie.douban.com/subject/1291841/",
-        "title": "教父"
+        "title": "教父",
+        "tags": {
+            "时间": "1972",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "犯罪"
+            ]
+        },
+        "score": 9.3,
+        "quote": "千万不要记恨你的对手，这样会让你失去理智。",
+        "href": "https://movie.douban.com/subject/1291841/"
     },
     "23": {
         "id": "23",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p1454261925.jpg",
-        "href": "https://movie.douban.com/subject/6786002/",
-        "title": "触不可及"
+        "title": "触不可及",
+        "tags": {
+            "时间": "2011",
+            "国家": [
+                "法国"
+            ],
+            "属性": [
+                "剧情",
+                "喜剧"
+            ]
+        },
+        "score": 9.3,
+        "quote": "满满温情的高雅喜剧。",
+        "href": "https://movie.douban.com/subject/6786002/"
     },
     "24": {
         "id": "24",
         "img": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2614359276.jpg",
-        "href": "https://movie.douban.com/subject/1849031/",
-        "title": "当幸福来敲门"
+        "title": "当幸福来敲门",
+        "tags": {
+            "时间": "2006",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "剧情",
+                "传记",
+                "家庭"
+            ]
+        },
+        "score": 9.2,
+        "quote": "平民励志片。 ",
+        "href": "https://movie.douban.com/subject/1849031/"
     },
     "25": {
         "id": "25",
         "img": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2505426431.jpg",
-        "href": "https://movie.douban.com/subject/20495023/",
-        "title": "寻梦环游记"
+        "title": "寻梦环游记",
+        "tags": {
+            "时间": "2017",
+            "国家": [
+                "美国"
+            ],
+            "属性": [
+                "喜剧",
+                "动画",
+                "奇幻",
+                "音乐"
+            ]
+        },
+        "score": 9.1,
+        "quote": "死亡不是真的逝去，遗忘才是永恒的消亡。",
+        "href": "https://movie.douban.com/subject/20495023/"
     }
 }
