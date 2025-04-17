@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html> q
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 引入 jQuery 库 -->
+    <script src="{% static 'jquery-3.4.1.min.js' %}"></script>
+    <link rel="icon" href="{% static 'favicon.ico' %}"></head>
+<body>
+    <button id="loadData">加载数据</button>
+    <div id="result"></div>
+    <p> {{ static }}</p>
+
+    <!-- 放置 jQuery 和 Ajax 代码 -->
+    <script>
+        $(document).ready(function() {
+            // 绑定按钮点击事件
+            $("#loadData").click(function() {
+                $.ajax({
+                    type: "get", // 请求方式
+                    url: "{{ data }}", // Django URL 模板标签
+
+                    // 请求成功时的回调函数
+                    success: function() {
+                        $("#result").html("ok");
+                    },
+                    error: function(xhr, status, error) {
+                        $("#result").html("请求出错: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

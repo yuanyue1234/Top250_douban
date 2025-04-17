@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,9 +25,18 @@ SECRET_KEY = 'django-insecure-*k=e4^yc$l-k&3i*2op_l3_n6jj@e9$ls=@oquxxwz=z=-h)5#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']  # 访问的host *全允许
+RATE_LIMIT_THRESHOLD = 10  # 每分钟请求限制  get请求不能超过15次
+BLACKLIST_THRESHOLD = 35  # 黑名单次数请求限制 get请求不能超过35次
+BLACKLIST_DURATION = 86400  # 黑名单持续时间（秒） 一天：86400s
 
-
+STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# 配置静态文件的目录
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # 项目根目录中的 'static' 文件夹
+    # 你可以添加其他静态文件目录
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,11 +59,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'myapp.middleware.CheckUserAgentMiddleware',
     'myapp.middleware.RateLimitMiddleware',
-    'myapp.middleware.ClearTableDataMiddleware'
 ]
-RATE_LIMIT_THRESHOLD = 10  # 每分钟请求限制  get请求不能超过15次
-BLACKLIST_THRESHOLD = 35  # 黑名单次数请求限制 get请求不能超过35次
-BLACKLIST_DURATION = 86400  # 黑名单持续时间（秒） 一天：86400s
+
 
 ROOT_URLCONF = 'djangoProject.urls'
 
@@ -122,8 +128,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
