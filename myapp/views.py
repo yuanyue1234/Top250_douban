@@ -1,4 +1,6 @@
+# 分页
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 import os
 import re
 import json
@@ -6,8 +8,34 @@ import json
 from pyecharts.charts import Pie, Bar, Line, WordCloud, Scatter, Bar3D
 from pyecharts import options as opts
 from django.shortcuts import render
+from myapp.models import Movie
 
 def lode_data():
+    # 从数据库获取所有电影数据
+    movies = Movie.objects.all()
+    data_list = []
+    
+    for movie in movies:
+        # 将数据库对象转换为与原JSON格式兼容的字典
+        movie_dict = {
+            'id': movie.douban_id,
+            'title': movie.title,
+            'img': movie.img,
+            'href': movie.href,
+            'quote': movie.quote,
+            'score': movie.score,
+            'tags': {
+                '时间': movie.year,
+                '国家': movie.countries.split(',') if movie.countries else [],
+                '属性': movie.genres.split(',') if movie.genres else []
+            }
+        }
+        data_list.append(movie_dict)
+    
+    return data_list
+
+# 原来从JSON文件读取数据的函数，保留作为备份
+def lode_data_from_json():
     # 初始化一个空列表来存储分页数据
     data_list = []
     # 获取当前脚本所在目录下的 'data' 文件夹路径
@@ -22,18 +50,37 @@ def lode_data():
             data = json.load(f)
             # 将当前文件中的数据值扩展到 data_list 中
             data_list.extend(list(data.values()))
-    # print(data_list)
 
     return data_list
 
 
 def index(request):
     # 获取搜索查询参数
-    search_query = request.GET.get('query', '')
-    # 过滤数据
-    data_list = lode_data()
+    search_query = request.GET.get('query','')
+    
+    # 直接从数据库查询
     if search_query:
-        data_list = [movie for movie in data_list if search_query.lower() in movie['title'].lower()]
+        movies = Movie.objects.filter(title__icontains=search_query)
+    else:
+        movies = Movie.objects.all()
+    
+    # 将数据库对象转换为与原JSON格式兼容的字典
+    data_list = []
+    for movie in movies:
+        movie_dict = {
+            'id': movie.douban_id,
+            'title': movie.title,
+            'img': movie.img,
+            'href': movie.href,
+            'quote': movie.quote,
+            'score': movie.score,
+            'tags': {
+                '时间': movie.year,
+                '国家': movie.countries.split(',') if movie.countries else [],
+                '属性': movie.genres.split(',') if movie.genres else []
+            }
+        }
+        data_list.append(movie_dict)
 
     # 创建分页器对象
     paginator = Paginator(data_list, 25)
@@ -58,6 +105,7 @@ def index(request):
         'current_page': page_obj.number,
         'pages': paginator.page_range,
         'form': SearchForm(initial={'query': search_query}),  # 将搜索表单传递给模板
+        'query': search_query,  # 添加搜索查询参数到上下文
     }
 
     return render(request, 'index.html', context)
@@ -102,7 +150,7 @@ def chart(request):
             top20_movie.append([movie["title"], movie["score"]])
             count += 1
         # year_score
-        years = re.findall(r'\d+', years)[0]
+        years = re.findall(r'\d+', years)[0] if years else "0"
         year_count[years] += 1
         year_score.append([years, movie["score"]])
 

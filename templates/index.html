@@ -107,8 +107,8 @@
                 <a href="/" class="navbar-item"><strong>Top250_豆瓣电影</strong></a>
                 <a href="/chart/" class="navbar-item">电影数据分析</a>
                 <a href="https://movie.douban.com/top250?start=0&filter=" class="navbar-item"
-                   title="豆瓣用户每天都在对“看过”的电影进行“很差”到“力荐”的评价，豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">数据源</a>
-                <a target="_blank" class="navbar-item" href="https://share.theojs.cn/" title="搜索相关资源即可获取">获取网盘资源</a>
+                   title="豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">数据源</a>
+{#                <a target="_blank" class="navbar-item" href="https://share.theojs.cn/" title="搜索相关资源即可获取">获取网盘资源</a>#}
                 <!-- 搜索表单 -->
                 <form method="get" action="{% url 'index' %}" class="navbar-item">
                     {{ form.as_p }}</form>
@@ -158,15 +158,16 @@
             </table>
         </div>
 
+{#    分页系统#}
         <nav class="pagination" role="navigation" aria-label="pagination">
             <a class="pagination-previous"
-               href="{% if has_previous %}?page={{ previous_page_number }}{% else %}#{% endif %}">上一页</a>
+               href="{% if has_previous %}?page={{ previous_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">上一页</a>
             <a class="pagination-next"
-               href="{% if has_next %}?page={{ next_page_number }}{% else %}#{% endif %}">下一页</a>
+               href="{% if has_next %}?page={{ next_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">下一页</a>
             <ul class="pagination-list">
                 {% for page in pages %}
                     <li><a class="pagination-link {% if page == current_page %}is-current{% endif %}"
-                           href="?page={{ page }}">{{ page }}</a></li>
+                           href="?page={{ page }}{% if query %}&query={{ query }}{% endif %}">{{ page }}</a></li>
                 {% endfor %}
             </ul>
         </nav>
