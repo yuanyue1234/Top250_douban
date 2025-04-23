@@ -7,6 +7,7 @@ import json
 # 数据可视化
 from pyecharts.charts import Pie, Bar, Line, WordCloud, Scatter, Bar3D
 from pyecharts import options as opts
+
 from django.shortcuts import render
 from myapp.models import Movie
 

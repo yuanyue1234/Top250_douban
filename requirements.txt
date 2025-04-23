@@ -1,4 +1,3 @@
 Django~=5.0.7
 pyecharts~=2.0.6
 requests~=2.32.3
-mysqlclient~=2.2.0

@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top250_豆瓣电影数据展示</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    
     <style>
 
         body {
@@ -14,9 +17,16 @@
         }
 
         .table-container {
-            max-height: 680px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
             position: relative;
+            overflow: hidden;
+        }
+
+        .table-scroll-container {
+            flex: 1;
+            overflow-y: auto;
             overflow-x: hidden;
         }
 
@@ -29,6 +39,11 @@
 
         .table {
             margin-bottom: 0;
+        }
+
+        .pagination-container {
+            padding: 10px 0;
+            background: white;
         }
 
         .notification {
@@ -87,92 +102,165 @@
             height: auto;
             width: 60px;
         }
+
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            margin-bottom: 15px;
+        }
+
+        .navbar-start {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-end {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-form input {
+            border-radius: 4px 0 0 4px;
+            border: 1px solid #dbdbdb;
+            padding: 6px 12px;
+            height: 36px;
+        }
+
+        .search-form button {
+            border-radius: 0 4px 4px 0;
+            border: 1px solid #3273dc;
+            background-color: #3273dc;
+            color: white;
+            padding: 6px 12px;
+            height: 36px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #276cda;
+        }
+
+        .nav-button {
+            background-color: #f5f5f5;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            color: #363636;
+            padding: 6px 12px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: #e8e8e8;
+        }
+
+        .nav-button i {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
-<section class="section">
-    <div class="container">
+<div class="container">
         <!-- 提示 -->
         <div class="notification is-danger"></div>
-        <div class="navbar-start">
-
-        </div>
         <div class="table-container">
-            <div class="navbar-start">
-                <a target="_blank" href="https://asunny.top">
-                    <img style="width: 55px;"
-                         src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico"
-                         alt="Asunny主页">
-                </a>
-                <a href="/" class="navbar-item"><strong>Top250_豆瓣电影</strong></a>
-                <a href="/chart/" class="navbar-item">电影数据分析</a>
-                <a href="https://movie.douban.com/top250?start=0&filter=" class="navbar-item"
-                   title="豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">数据源</a>
-{#                <a target="_blank" class="navbar-item" href="https://share.theojs.cn/" title="搜索相关资源即可获取">获取网盘资源</a>#}
-                <!-- 搜索表单 -->
-                <form method="get" action="{% url 'index' %}" class="navbar-item">
-                    {{ form.as_p }}</form>
-                <div class="navbar-end">
-                    <a href="/" class="navbar-item" style="">刷新主页</a>
+            <div class="navbar-container">
+                <div class="navbar-start">
+                    <a target="_blank" href="https://asunny.top">
+                        <img style="width: 55px;"
+                             src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/ico%E5%9B%BE%E6%A0%87.ico"
+                             alt="Asunny主页">
+                    </a>
+                    <a href="/" class="nav-button"><strong>Top250_豆瓣电影</strong></a>
+                    <a href="/chart/" class="nav-button"><i class="fas fa-chart-bar"></i> 数据分析</a>
+                    <a href="https://movie.douban.com/top250?start=0&filter=" class="nav-button" 
+                       title="豆瓣根据每部影片看过的人数以及该影片所得的评价等综合数据，通过算法分析产生豆瓣电影 Top 250。">
+                        <i class="fas fa-database"></i> 数据源
+                    </a>
                 </div>
-
+                
+                <div class="navbar-end">
+                    <form method="get" action="{% url 'index' %}" class="search-form">
+                        <input type="text" name="query" placeholder="搜索电影..." value="{{ request.GET.query }}">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                    <a href="/" class="nav-button" title="刷新页面">
+                        <i class="fas fa-sync-alt"></i>刷新
+                    </a>
+                </div>
             </div>
 
-            <table class="table is-striped is-hoverable is-fullwidth">
-                <thead>
-                <tr>
-                    <th style="width: 30px">⬆️</th>
-                    <th style="min-width: 80px">🖼️封面</th>
-                    <th>🎞️影视</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for movie in movies %}
-                    <tr class="movie-row">
-                        <td><span style="color:hsl(348, 100%, 61%);">{{ movie.id }}</span></td>
-                        <td><img data-src="{{ movie.img }}" alt="{{ movie.title }}" width="100" class="lazy"
-                                 src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/logo3.png"></td>
-                        <td>
-                            <a href="{{ movie.href }}" target="_blank" class="movie-title">{{ movie.title }}</a>
-                            <button class="button is-warning" onclick="getMovieResource('{{ movie.title }}')">获取
-                            </button>
-                            <p>
-                                <span class="tag is-info">{{ movie.tags.时间 }} 年</span>
-                                <span class="tag is-link">{{ movie.score }} 分</span><br>
-                                {% for country in movie.tags.国家 %}
-                                    <span class="tag is-primary">{{ country }}</span>
-                                {% endfor %}
-                                {% for property in movie.tags.属性 %}
-                                    <span class="tag is-danger">{{ property }}</span>
-                                {% endfor %}
-                            </p>
-
-
-                            <div class="movie-details">
-                                <p class="quote has-background-primary-light"><strong>{{ movie.quote }}</strong></p>
-                            </div>
-                        </td>
+            <div class="table-scroll-container">
+                <table class="table is-striped is-hoverable is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th style="width: 30px">⬆️</th>
+                        <th style="min-width: 80px">🖼️封面</th>
+                        <th>🎞️影视</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    {% for movie in movies %}
+                        <tr class="movie-row">
+                            <td><span style="color:hsl(348, 100%, 61%);">{{ movie.id }}</span></td>
+                            <td><img data-src="{{ movie.img }}" alt="{{ movie.title }}" width="100" class="lazy"
+                                     src="https://asunny-1314135129.cos.ap-guangzhou.myqcloud.com/img/logo3.png"></td>
+                            <td>
+                                <a href="{{ movie.href }}" target="_blank" class="movie-title">{{ movie.title }}</a>
+                                <button class="button is-warning" onclick="getMovieResource('{{ movie.title }}')">获取
+                                </button>
+                                <p>
+                                    <span class="tag is-info">{{ movie.tags.时间 }} 年</span>
+                                    <span class="tag is-link">{{ movie.score }} 分</span><br>
+                                    {% for country in movie.tags.国家 %}
+                                        <span class="tag is-primary">{{ country }}</span>
+                                    {% endfor %}
+                                    {% for property in movie.tags.属性 %}
+                                        <span class="tag is-danger">{{ property }}</span>
+                                    {% endfor %}
+                                </p>
 
-{#    分页系统#}
-        <nav class="pagination" role="navigation" aria-label="pagination">
-            <a class="pagination-previous"
-               href="{% if has_previous %}?page={{ previous_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">上一页</a>
-            <a class="pagination-next"
-               href="{% if has_next %}?page={{ next_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">下一页</a>
-            <ul class="pagination-list">
-                {% for page in pages %}
-                    <li><a class="pagination-link {% if page == current_page %}is-current{% endif %}"
-                           href="?page={{ page }}{% if query %}&query={{ query }}{% endif %}">{{ page }}</a></li>
-                {% endfor %}
-            </ul>
-        </nav>
+
+                                <div class="movie-details">
+                                    <p class="quote has-background-primary-light"><strong>{{ movie.quote }}</strong></p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 分页系统 -->
+            <div class="pagination-container">
+                <nav class="pagination" role="navigation" aria-label="pagination">
+                    <a class="pagination-previous"
+                       href="{% if has_previous %}?page={{ previous_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">上一页</a>
+                    <a class="pagination-next"
+                       href="{% if has_next %}?page={{ next_page_number }}{% if query %}&query={{ query }}{% endif %}{% else %}#{% endif %}">下一页</a>
+                    <ul class="pagination-list">
+                        {% for page in pages %}
+                            <li><a class="pagination-link {% if page == current_page %}is-current{% endif %}"
+                                   href="?page={{ page }}{% if query %}&query={{ query }}{% endif %}">{{ page }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-</section>
 <script>
     // 定义一个名为 enableLazyLoad 的函数，用于启用图片懒加载功能
     function enableLazyLoad() {
